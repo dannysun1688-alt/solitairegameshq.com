@@ -13,7 +13,56 @@
 	<script src="docs/js/lodash.custom.min.js"></script>
 
 	<script src="docs/js/require--debug.js"></script>
+<script>
+    window.YUI_config = {
+        base: 'docs/js/yui-unpack/yui/build/',
+        comboBase: 'docs/js/yui-unpack/yui/combo?',
+        root: 'build/',
+        combine: false
+    };
+</script>
 	<script src="docs/js/yui-debug.js"></script>
+<script>
+    (function (OriginalYUI) {
+        var yuiBase = 'docs/js/yui-unpack/yui/build/';
+
+        function normalizeConfig(config) {
+            if (!config || typeof config !== 'object') {
+                return config;
+            }
+
+            var normalized = {};
+            for (var key in config) {
+                if (Object.prototype.hasOwnProperty.call(config, key)) {
+                    normalized[key] = config[key];
+                }
+            }
+
+            if (!normalized.base || normalized.base === 'js/yui-unpack/yui/build/') {
+                normalized.base = yuiBase;
+            }
+            normalized.combine = false;
+            return normalized;
+        }
+
+        function RootYUI() {
+            var args = Array.prototype.slice.call(arguments).map(normalizeConfig);
+            if (!args.length) {
+                args.push({ base: yuiBase, combine: false });
+            }
+            return OriginalYUI.apply(this instanceof RootYUI ? this : new OriginalYUI(), args);
+        }
+
+        for (var key in OriginalYUI) {
+            if (Object.prototype.hasOwnProperty.call(OriginalYUI, key)) {
+                RootYUI[key] = OriginalYUI[key];
+            }
+        }
+
+        RootYUI.prototype = OriginalYUI.prototype;
+        window.YUI = YUI = RootYUI;
+    }(YUI));
+</script>
 <script>
     console.log('bef requirejs');
 requirejs.config({
