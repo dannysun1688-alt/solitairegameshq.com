@@ -830,6 +830,24 @@ footer a {
   margin: 0 8px;
 }
 
+.ccpa-footer-link {
+  background: #fff6b8;
+  border: 2px solid #b58a00;
+  border-radius: 6px;
+  color: #053b2a !important;
+  display: inline-block;
+  font-weight: 800;
+  margin: 6px 8px;
+  padding: 7px 11px;
+  text-decoration: underline;
+}
+
+.ccpa-footer-link:focus,
+.ccpa-footer-link:hover {
+  background: #ffe66b;
+  color: #021f16 !important;
+}
+
 footer > p {
   padding: 0;
 }
